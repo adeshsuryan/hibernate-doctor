@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.adeshsuryan</groupId>
+  <artifactId>hibernate-doctor-parent</artifactId>
+  <version>0.1.0</version>
+  <packaging>pom</packaging>
+
+  <name>hibernate-doctor-parent</name>
+  <description>Diagnose N+1 queries, unbounded fetches, and ORM statement problems in
+    Spring Boot and Hibernate applications. Evidence-based findings with named
+    suspects and fix guidance.</description>
+  <url>https://github.com/adeshsuryan/hibernate-doctor</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Adesh Suryan</name>
+      <email>adeshsuryan2005@gmail.com</email>
+      <url>https://github.com/adeshsuryan</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/adeshsuryan/hibernate-doctor.git</connection>
+    <developerConnection>scm:git:ssh://github.com/adeshsuryan/hibernate-doctor.git</developerConnection>
+    <url>https://github.com/adeshsuryan/hibernate-doctor</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <modules>
+    <module>hibernate-doctor-core</module>
+    <module>hibernate-doctor-spring-boot-starter</module>
+    <module>hibernate-doctor-junit</module>
+  </modules>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>5.10.5</junit.version>
+    <spring-boot.version>3.5.6</spring-boot.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.github.adeshsuryan</groupId>
+        <artifactId>hibernate-doctor-core</artifactId>
+        <version>0.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <!-- /Volumes volumes regenerate AppleDouble ._* files; purge them
+               from build output before tests and packaging -->
+          <execution>
+            <id>purge-appledouble</id>
+            <phase>process-test-classes</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <target>
+                <delete>
+                  <fileset dir="${project.build.outputDirectory}" includes="**/._*"
+                           erroronmissingdir="false"/>
+                </delete>
+                <delete>
+                  <fileset dir="${project.build.testOutputDirectory}" includes="**/._*"
+                           erroronmissingdir="false"/>
+                </delete>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <excludes>
+            <exclude>**/._*</exclude>
+          </excludes>
+          <testExcludes>
+            <testExclude>**/._*</testExclude>
+          </testExcludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+        <configuration>
+          <excludes>
+            <exclude>**/._*</exclude>
+          </excludes>
+          <systemPropertyVariables>
+            <!-- /Volumes volumes regenerate AppleDouble ._* files in target/;
+                 tells Spring's classpath scanner to skip non-class-format files -->
+            <spring.classformat.ignore>true</spring.classformat.ignore>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <excludes>
+            <exclude>**/._*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <excludes>
+            <exclude>**/._*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals><goal>jar-no-fork</goal></goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludes>
+            <exclude>**/._*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals><goal>jar</goal></goals>
+          </execution>
+        </executions>
+        <configuration>
+          <quiet>true</quiet>
+          <doclint>none</doclint>
+          <excludePackageNames>._*</excludePackageNames>
+          <sourcepathExcludes>
+            <param>**/._*</param>
+          </sourcepathExcludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.7</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals><goal>sign</goal></goals>
+              </execution>
+            </executions>
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.8.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+              <waitUntil>published</waitUntil>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.adeshsuryan</groupId>
+    <artifactId>hibernate-doctor-parent</artifactId>
+    <version>0.1.0</version>
+  </parent>
+
+  <artifactId>hibernate-doctor-junit</artifactId>
+  <name>hibernate-doctor-junit</name>
+  <description>JUnit 5 extension for hibernate-doctor: query budgets and
+    regression assertions inside tests.</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.adeshsuryan</groupId>
+      <artifactId>hibernate-doctor-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
