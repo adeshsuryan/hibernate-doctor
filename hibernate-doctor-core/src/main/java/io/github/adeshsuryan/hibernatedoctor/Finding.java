@@ -14,4 +14,8 @@ public record Finding(
         String evidence,
         String why,
         List<String> investigate) {
+
+    public Finding {
+        investigate = investigate == null ? List.of() : List.copyOf(investigate);
+    }
 }

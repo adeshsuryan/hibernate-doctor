@@ -7,7 +7,7 @@
   <parent>
     <groupId>io.github.adeshsuryan</groupId>
     <artifactId>hibernate-doctor-parent</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
   </parent>
 
   <artifactId>hibernate-doctor-spring-boot-starter</artifactId>
@@ -84,7 +84,7 @@
     <dependency>
       <groupId>io.github.adeshsuryan</groupId>
       <artifactId>hibernate-doctor-junit</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

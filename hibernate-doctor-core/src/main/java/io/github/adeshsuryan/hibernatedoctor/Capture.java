@@ -5,22 +5,31 @@ import java.util.Deque;
 
 /**
  * Thread-local dispatch from the JDBC capture layer to the innermost open
- * boundary. Near-zero cost when no boundary is open on the calling thread.
+ * boundary. The deque is created lazily in {@link #push} and removed again
+ * when the stack empties, so threads that never open a boundary allocate
+ * nothing — near-zero cost on the cold path.
  */
 public final class Capture {
 
-    private static final ThreadLocal<Deque<OperationBoundary>> STACK =
-            ThreadLocal.withInitial(ArrayDeque::new);
+    private static final ThreadLocal<Deque<OperationBoundary>> STACK = new ThreadLocal<>();
 
     private Capture() {
     }
 
     static void push(OperationBoundary boundary) {
-        STACK.get().push(boundary);
+        Deque<OperationBoundary> stack = STACK.get();
+        if (stack == null) {
+            stack = new ArrayDeque<>();
+            STACK.set(stack);
+        }
+        stack.push(boundary);
     }
 
     static void pop(OperationBoundary boundary) {
         Deque<OperationBoundary> stack = STACK.get();
+        if (stack == null) {
+            return;
+        }
         if (!stack.isEmpty() && stack.peek() == boundary) {
             stack.pop();
         } else {

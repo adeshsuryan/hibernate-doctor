@@ -92,6 +92,10 @@ public final class Doctor {
     /** An evaluated report: evidence plus findings plus renderers. */
     public record Report(OperationEvidence evidence, List<Finding> findings) {
 
+        public Report {
+            findings = findings == null ? List.of() : List.copyOf(findings);
+        }
+
         public boolean hasFindings() {
             return !findings.isEmpty();
         }
