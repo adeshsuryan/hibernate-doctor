@@ -14,7 +14,7 @@ jobs:
         jdk: [17, 21]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ matrix.jdk }}
@@ -25,13 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        jdk: [17, 21]
         spring-boot: ["3.2.12", "3.3.13", "3.4.10", "3.5.16"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 21
+          java-version: ${{ matrix.jdk }}
           cache: maven
       - run: mvn -B verify -Dspring-boot.version=${{ matrix.spring-boot }}
 
@@ -39,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
